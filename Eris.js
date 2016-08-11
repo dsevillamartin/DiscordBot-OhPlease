@@ -2,7 +2,7 @@ let { debug, error } = require('./log');
 let chalk = require('chalk');
 let Eris = require('eris');
 
-let bot = new Eris.CommandClient('MjA5NzQ0MzUxNDM2MzQxMjQ5.CoVZ9g.uBz-isysDuMmDjTWNCRM5SR0Svs', {}, {
+let bot = new Eris.CommandClient(require('./CONFIG.json').token, {}, {
   description: 'Oh Please bot built in eris',
   owner: 'datitisev#4934',
   name: 'Oh Please',
