@@ -21,7 +21,7 @@ const HelpMessage = [
 module.exports = bot => {
 
   bot.registerCommand('help', msg => {
-    bot.getDMChannel('175008284263186437').then(DMChannel => {
+    bot.getDMChannel(msg.author.id).then(DMChannel => {
       return bot.createMessage(DMChannel.id, HelpMessage);
     }).then(() => {
       if (msg.channel.guild) return bot.createMessage(msg.channel.id, `<@${msg.author.id}>, help has been sent to your DM`);
