@@ -3,6 +3,7 @@ const HelpMessage = [
   'by <@!175008284263186437>',
   '',
   '**Commands**:',
+  '  **ping** - just a ping command :slight_smile:',
   '  **help** - this help message',
   '  **invite** - invite Oh Please to your server',
   '  **info** - info about Oh Please',
@@ -10,12 +11,12 @@ const HelpMessage = [
   '  **learn d.js** - two useful links for developing a bot with discord.js',
   '  **read docs** - read the docs of the corresponding library, if <#178672669841948672> uses Eris, otherwise defaults to d.js',
   '  **troubleshooting** - gives some links for troubleshooting, depend on library, eris & d.js set up',
-  '  **show me a voice example** - sends a voice example code, depends on library, eris & d.js set up',
+  '  **catch output** - how to use catch in a promise',
   '  **scroll up** - oh please scroll up :eyes:',
+  '  **show me a voice example** - sends a voice example code, depends on library, eris & d.js set up',
   '  **detect wrong token**  - know if the token didn\'t work in d.js',
   '  **god no** - oh god please no',
   '  **music bot** - #triggered',
-  '  **ping** - just a ping command :slight_smile:',
 ].join('\n');
 
 module.exports = bot => {
