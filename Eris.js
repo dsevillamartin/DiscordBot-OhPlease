@@ -38,6 +38,7 @@ require('./Commands/SetNick')(bot, DeleteMessageCommand);
 require('./Commands/MusicBot')(bot, DeleteMessageCommand);
 require('./Commands/Ping')(bot, DeleteMessageCommand);
 require('./Commands/ScrollUp')(bot, DeleteMessageCommand);
+require('./Commands/CatchOutput')(bot, DeleteMessageCommand);
 
 bot.on('error', (err, id) => {
   let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');

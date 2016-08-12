@@ -353,7 +353,7 @@ Bot.on('error', error);
 Bot.on('warn', error);
 Bot.on('uncaughtException', error);
 
-Bot.loginWithToken('MjA5NzQ0MzUxNDM2MzQxMjQ5.CoVZ9g.uBz-isysDuMmDjTWNCRM5SR0Svs', (err, token) => {
+Bot.loginWithToken(OLD_TOKEN, (err, token) => {
   if (err) return error(err);
   console.log(chalk.italic.cyan(`=> Logging in...`));
   console.log(chalk.italic.cyan(`=> Instant error... ${err}`));
