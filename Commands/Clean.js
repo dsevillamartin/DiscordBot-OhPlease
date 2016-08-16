@@ -1,22 +1,22 @@
-let { error } = require('../log');
+let Log = require('../log').Logger;
 
 module.exports = bot => {
 
   bot.registerCommand('clean', msg => {
 
-    console.log(`Getting messages from #${msg.channel.name}...`);
+    Log.debug(`Getting messages from #${msg.channel.name}...`);
 
     bot.getMessages(msg.channel.id).then(messages => {
-      console.log(`Filtering ${messages.length} messages...`)
+      Log.debug(`Filtering ${messages.length} messages...`)
       let msgs = messages.filter(e => e.author.id == bot.user.id);
 
-      console.log(`Deleting ${msgs.length} messages...`);
+      Log.debug(`Deleting ${msgs.length} messages...`);
 
       msgs.forEach(message => {
         bot.deleteMessage(message.channel.id, message.id).catch(error);
       });
 
-      console.log(`Deleted ${msgs.length} messages!`);
+      Log.debug(`Deleted ${msgs.length} messages!`);
     })
 
   }, {

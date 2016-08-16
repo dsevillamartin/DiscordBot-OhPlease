@@ -2,6 +2,7 @@ let { debug, error } = require('./log');
 let chalk = require('chalk');
 let Eris = require('eris');
 let CONFIG = require('./CONFIG.js');
+let log = require('./log').Logger;
 
 let bot = new Eris.CommandClient(CONFIG.token, {}, {
   description: 'Oh Please bot built in eris',
@@ -18,7 +19,7 @@ let DeleteMessageCommand = require('./Commands/DeleteMessageCommand')(bot);
 
 bot.on('ready', () => {
   ready = true;
-  console.log(chalk.cyan('=> Logged in!'));
+  log.info(chalk.cyan('=> Logged in!'));
 });
 
 require('./Commands/Help')(bot, DeleteMessageCommand);
@@ -41,6 +42,7 @@ require('./Commands/ScrollUp')(bot, DeleteMessageCommand);
 require('./Commands/CatchOutput')(bot, DeleteMessageCommand);
 
 require('./Modules/Tags')(bot);
+require('./Modules/CommandLogger')(bot);
 
 bot.on('error', (err, id) => {
   let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
@@ -48,7 +50,7 @@ bot.on('error', (err, id) => {
     bot.createMessage(DMChannel.id, `\`ERROR IN SHARD ${id}\`\n\`\`\`sh\n${errorMsg}\n\`\`\``);
   }).catch(error);
 
-  error(errorMsg);
+  log.error(errorMsg);
 });
 
 process.on('uncaughtException', (err) => {
@@ -57,13 +59,13 @@ process.on('uncaughtException', (err) => {
     bot.createMessage(DMChannel.id, `\`UNCAUGHT EXCEPTION\`\n\`\`\`sh\n${errorMsg}\n\`\`\``);
   }).catch(error);
 
-  error(errorMsg);
+  log.error(errorMsg);
 });
 
 bot.connect().then(() => {
-  console.log(chalk.cyan('=> Logging in...'));
+  log.info(chalk.cyan('=> Logging in...'));
   setTimeout(() => {
-    if (!ready) console.log(chalk.red('=> Invalid token or gateway may be down'));
+    if (!ready) log.error(chalk.red('=> Invalid token or gateway may be down'));
   }, 7500)
 }).catch(err => {
   error(err);
