@@ -6,7 +6,7 @@ let Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
 // mongoose.connect('mongodb://localhost:27017/OhPlease');
-mongoose.connect(process.env.MONGODB);
+mongoose.connect(process.env.MONGODB || 'mongodb://localhost:27017/OhPlease');
 
 let TagSchema = new Schema({
   name: String,

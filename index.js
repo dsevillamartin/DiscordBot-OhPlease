@@ -8,6 +8,16 @@ let io = require('socket.io')(server);
 
 let Log = require('./log');
 
+const stopSignals = [
+  'SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
+  'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
+];
+const PORT = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+const IP = process.env.OPENSHIFT_NODEJS_IP || null;
+
+console.log(process.env.OPENSHIFT_NODEJS_IP);
+console.log(process.env.OPENSHIFT_NODEJS_PORT);
+
 Log.Socket(io);
 
 let SocketReady = false;
@@ -18,14 +28,11 @@ io.on('connection', socket => {
   require('./Eris');
   SocketReady = true;
 });
-
 app.engine('hbs', exphbs({
   defaultLayout: 'main',
   extname: '.hbs'
 }));
 app.set('view engine', 'hbs');
-app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
-app.set('ip', process.env.OPENSHIFT_NODEJS_IP || null);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
@@ -40,20 +47,19 @@ process.on('exit', code => {
     process.exit(200);
   }
 });
-process.on('SIGINIT', code => {
-  if (code !== 200) {
-    Log.Logger.info(code == 1 ? '=> Exited with an error' : '=> Exit');
-    process.exit(200);
-  }
-});
-process.on('SIGTERM', code => {
-  if (code !== 200) {
-    Log.Logger.info(code == 1 ? '=> Exited with an error' : '=> Exit');
-    process.exit(200);
-  }
+
+stopSignals.forEach(stopSignal => {
+  process.on(stopSignal, code => {
+    if (code !== 200) {
+      Log.Logger.info(code == 1 ? '=> Exited with an error' : '=> Exit');
+      process.exit(200);
+    }
+  });
 });
 
+Log.Logger.info('=> Starting app on ${IP || 'localhost'}:${PORT}')
 
-server.listen(app.get('port'), app.get('ip'), () => {
-  Log.Logger.info(`=> Listening on port ${app.get('ip') || 'localhost'}:${app.get('port')}`);
+
+server.listen(PORT, IP, () => {
+  Log.Logger.info(`=> Listening on ${IP || 'localhost'}:${PORT}`);
 });
