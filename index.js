@@ -15,9 +15,6 @@ const stopSignals = [
 const PORT = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 const IP = process.env.OPENSHIFT_NODEJS_IP || null;
 
-console.log(process.env.OPENSHIFT_NODEJS_IP);
-console.log(process.env.OPENSHIFT_NODEJS_PORT);
-
 Log.Socket(io);
 
 let SocketReady = false;
