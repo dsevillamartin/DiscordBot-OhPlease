@@ -40,6 +40,8 @@ require('./Commands/Ping')(bot, DeleteMessageCommand);
 require('./Commands/ScrollUp')(bot, DeleteMessageCommand);
 require('./Commands/CatchOutput')(bot, DeleteMessageCommand);
 
+require('./Modules/Tags')(bot);
+
 bot.on('error', (err, id) => {
   let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
   bot.getDMChannel('175008284263186437').then(DMChannel => {

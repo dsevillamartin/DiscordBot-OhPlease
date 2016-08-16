@@ -1,3 +1,5 @@
+let chalk = require('chalk');
+
 module.exports = bot => {
   bot.registerCommand('setnick', (msg, args) => {
     console.log(chalk.green(args));
