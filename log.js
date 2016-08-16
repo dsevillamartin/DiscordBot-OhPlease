@@ -55,8 +55,9 @@ class Logger {
   }
 
   emit(log) {
-    socket.emit('log', log.replace(/(\[)\w+(m)/g, ''));
     logs.push(log.replace(/(\[)\w+(m)/g, ''));
+    if (!socket) return false;
+    socket.emit('log', log.replace(/(\[)\w+(m)/g, ''));
   }
 }
 
