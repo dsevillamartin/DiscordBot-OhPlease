@@ -57,7 +57,7 @@ stopSignals.forEach(stopSignal => {
   });
 });
 
-Log.Logger.info('=> Starting app on ${IP || 'localhost'}:${PORT}')
+Log.Logger.info(`=> Starting app on ${IP || 'localhost'}:${PORT}`);
 
 
 server.listen(PORT, IP, () => {
