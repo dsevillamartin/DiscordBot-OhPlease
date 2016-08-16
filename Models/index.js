@@ -3,7 +3,7 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-mongoose.promise = global.Promise;
+mongoose.Promise = global.Promise;
 
 let CONFIG = require('../CONFIG');
 
