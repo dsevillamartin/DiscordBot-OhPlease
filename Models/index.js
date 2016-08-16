@@ -5,10 +5,8 @@ let Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
 
-let CONFIG = require('../CONFIG');
-
 // mongoose.connect('mongodb://localhost:27017/OhPlease');
-mongoose.connect(CONFIG.mongodb);
+mongoose.connect(process.env.MONGODB);
 
 let TagSchema = new Schema({
   name: String,

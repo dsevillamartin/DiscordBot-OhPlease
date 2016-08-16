@@ -1,10 +1,9 @@
 let { debug, error } = require('./log');
 let chalk = require('chalk');
 let Eris = require('eris');
-let CONFIG = require('./CONFIG.js');
 let log = require('./log').Logger;
 
-let bot = new Eris.CommandClient(CONFIG.token, {}, {
+let bot = new Eris.CommandClient(process.env.TOKEN, {}, {
   description: 'Oh Please bot built in eris',
   owner: 'datitisev#4934',
   name: 'Oh Please',

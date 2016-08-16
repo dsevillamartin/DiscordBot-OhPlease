@@ -24,6 +24,8 @@ app.engine('hbs', exphbs({
   extname: '.hbs'
 }));
 app.set('view engine', 'hbs');
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
+app.set('ip', process.env.OPENSHIFT_NODEJS_IP || null);
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
@@ -52,6 +54,6 @@ process.on('SIGTERM', code => {
 });
 
 
-server.listen(8080, () => {
-  Log.Logger.info('=> Listening on port 8080')
+server.listen(app.get('port'), app.get('ip'), () => {
+  Log.Logger.info(`=> Listening on port ${app.get('ip') || 'localhost'}:${app.get('port')}`);
 });
