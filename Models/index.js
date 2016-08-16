@@ -3,7 +3,12 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
-mongoose.connect('mongodb://localhost:27017/OhPlease');
+mongoose.promise = global.Promise;
+
+let CONFIG = require('../CONFIG');
+
+// mongoose.connect('mongodb://localhost:27017/OhPlease');
+mongoose.connect(CONFIG.mongodb);
 
 let TagSchema = new Schema({
   name: String,
