@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "snyk test",
-    "start": "node --use_strict Eris.js"
+    "start": "node --use_strict index.js"
   },
   "author": "David Sevilla Martín <dsevilla192@icloud.com>",
   "license": "MIT",
