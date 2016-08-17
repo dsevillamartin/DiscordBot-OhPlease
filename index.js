@@ -13,10 +13,7 @@ const stopSignals = [
   'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
 ];
 const PORT = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-const IP = process.env.OPENSHIFT_NODEJS_IP || null;
-
-console.log(process.env.OPENSHIFT_NODEJS_IP);
-console.log(process.env.OPENSHIFT_NODEJS_PORT);
+const IP = process.env.OPENSHIFT_NODEJS_IP || 'localhost';
 
 Log.Socket(io);
 
@@ -38,22 +35,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function (req, res) {
   res.render('home', {
     logs: Log.Logger.logs
-  });
-});
-
-process.on('exit', code => {
-  if (code !== 200) {
-    Log.Logger.info(code == 1 ? '=> Exited with an error' : '=> Exit');
-    process.exit(200);
-  }
-});
-
-stopSignals.forEach(stopSignal => {
-  process.on(stopSignal, code => {
-    if (code !== 200) {
-      Log.Logger.info(code == 1 ? '=> Exited with an error' : '=> Exit');
-      process.exit(200);
-    }
   });
 });
 
