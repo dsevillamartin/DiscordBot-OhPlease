@@ -29,6 +29,8 @@ const Stats = {
   }
 };
 
+const Log = require('../log').Logger;
+
 module.exports = bot => {
 
   bot.registerCommand('stats', msg => {
@@ -40,6 +42,8 @@ module.exports = bot => {
       '',
       `• Memory Usage : \`${MemoryUsing}\``,
       `• Uptime: \`${Uptime}\``,
+      `• Servers: \`${bot.guilds.size}\``,
+      `• Users: \`${bot.users.size}\``,
       `• Messages Sent: \`${Stats.Messages.Sent}\``,
       `• Messages Received: \`${Stats.Messages.Received}\``,
     ].join('\n');
