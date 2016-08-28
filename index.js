@@ -19,10 +19,11 @@ Log.Socket(io);
 
 let SocketReady = false;
 
+require('./Eris');
+
 io.on('connection', socket => {
   if (SocketReady) return false;
   Log.Logger.debug('Socket.IO Connected!');
-  require('./Eris');
   SocketReady = true;
 });
 app.engine('hbs', exphbs({

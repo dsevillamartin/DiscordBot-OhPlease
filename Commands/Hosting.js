@@ -17,6 +17,7 @@ module.exports = (bot, DeleteMessageCommand) => {
     }, {
       name: 'Digital Ocean',
       url: 'https://m.do.co/c/a844b9f2c03e',
+      urlMessage: 'referral link from Gexo',
       description: 'Starting at $5/month (USD), you can have your own server with 20GB SSD Disk, and 512MB Memory in 1 minute. Every project is a droplet. Ubuntu is recommended for the OS'
     }, {
       name: 'Time4VPS',
@@ -39,7 +40,7 @@ module.exports = (bot, DeleteMessageCommand) => {
     paidHosting.forEach(elem => {
       let hostingMsg = [
         `• **${elem.name}** ${elem.warning ? `_(${elem.warning})_` : ''}`,
-        `  - <${elem.url}>`,
+        `  - <${elem.url}> ${elem.urlMessage ? `(${elem.urlMessage})` : ''}`,
         `  - ${elem.description}`
       ].join('\n')
       message.push(hostingMsg);
