@@ -38,11 +38,12 @@ class LearnCommand extends Graf.Command {
   }
 
   run(msg, args) {
-    if (!args) return Promise.resolve();
     if (args[0] == 'js' || args[0] == 'javascript') {
       return Promise.resolve({ plain: LearnJSMessage });
     } else if (args[0] == 'd.js' || args[0] == 'discord.js' || args[0] == 'discordjs') {
       return Promise.resolve({ plain: LearnDiscordJSMessage });
+    } else {
+      return Promise.resolve('Invalid args or none found. Valid args:\n - `js`\n - `d.js` \nUsage: `oh please learn (js/d.js)`');
     }
   }
 }
