@@ -19,7 +19,7 @@ Log.Socket(io);
 
 let SocketReady = false;
 
-require('./Eris');
+require('./bot');
 
 io.on('connection', socket => {
   if (SocketReady) return false;

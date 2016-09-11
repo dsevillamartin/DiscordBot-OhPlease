@@ -34,7 +34,7 @@ class LearnCommand extends Graf.Command {
       description: 'Links to learn javascript',
       memberName: 'learn',
       module: 'general'
-    })
+    });
   }
 
   run(msg, args) {

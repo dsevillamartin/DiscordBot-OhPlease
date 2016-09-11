@@ -12,10 +12,10 @@ class InviteCommand extends Graf.Command {
       name: 'invite',
       argsCount: 0,
       description: 'Invite link',
-      details: 'Invite Oh Please to your server! Do it! DO IT! **DO IT!!!! I DARE YOU!**',
+      details: 'Invite Oh Please to your server! Do it! DO IT! **DO IT!!!!** _plz_',
       memberName: 'invite',
       module: 'general'
-    })
+    });
   }
 
   run(msg) {

@@ -59,7 +59,7 @@ class VoiceExampleCommand extends Graf.Command {
       module: 'general',
       usage: 'voice example [d.js/eris]',
       examples: ['voice example', 'voice example eris']
-    })
+    });
   }
 
   run(msg, args) {

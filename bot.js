@@ -3,12 +3,14 @@ let chalk = require('chalk');
 let Log = require('./log').Logger;
 let { Bot } = require('discord-graf');
 
-const version = 'dev';
-const name = 'Oh Please';
-const token = process.env.TOKEN;
+const bot_version = 'dev';
+const bot_name = 'Oh Please';
+const bot_token = process.env.TOKEN;
 
 const bot = new Bot({
-  name, version, token,
+  name: bot_name,
+  version: bot_version,
+  token: bot_token,
   clientOptions: {
     disableEveryone: true
   },
@@ -18,15 +20,6 @@ const bot = new Bot({
 
 bot._logger = Log;
 
-let ready = false;
-
-// let DeleteMessageCommand = require('./Commands/DeleteMessageCommand')(bot);
-
-// bot.on('ready', () => {
-//   ready = true;
-//   Log.info(chalk.cyan('=> Logged in!'));
-// });
-
 let Commands = [
   require('./Commands/Clean'),
   require('./Commands/Ping'),
@@ -34,7 +27,7 @@ let Commands = [
   require('./Commands/Stats'),
   require('./Commands/Invite'),
   require('./Commands/SetNick'),
-  //
+
   require('./Commands/Hosting'),
   require('./Commands/Learn'),
   require('./Commands/Troubleshooting'),
@@ -44,19 +37,7 @@ let Commands = [
   require('./Commands/VoiceExample'),
   require('./Commands/Codeblocks'),
   require('./Commands/CatchOutput'),
-]
-
-// require('./Modules/Tags')(bot);
-// require('./Modules/CommandLogger')(bot);
-
-// bot.on('error', (err, id) => {
-//   let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
-//   bot.getDMChannel('175008284263186437').then(DMChannel => {
-//     bot.createMessage(DMChannel.id, `\`ERROR IN SHARD ${id}\`\n\`\`\`sh\n${errorMsg}\n\`\`\``);
-//   }).catch(error);
-//
-//   Log.error(errorMsg);
-// });
+];
 
 process.on('uncaughtException', (err) => {
   let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
@@ -77,14 +58,15 @@ bot.registerModules([
   modRoles: false,
   channels: false
 }).registerCommands(Commands).createClient();
-//
-// bot.connect().then(() => {
-//   Log.info(chalk.cyan('=> Logging in...'));
-//   setTimeout(() => {
-//     if (!ready) Log.error(chalk.red('=> Invalid token or gateway may be down'));
-//   }, 7500)
-// }).catch(err => {
-//   error(err);
-// });
+
+bot.client.on('error', (err, id) => {
+  let client = bot.client;
+  let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
+  client.bot.users.get('175008284263186437')
+    .sendMessage(`\`ERROR IN SHARD ${id}\`\n\`\`\`sh\n${errorMsg}\n\`\`\``)
+    .catch(Log.error.bind(Log));
+
+  Log.error(errorMsg);
+});
 
 module.exports = bot;

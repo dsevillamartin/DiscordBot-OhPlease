@@ -19,7 +19,7 @@ class InfoCommand extends Graf.Command {
       details: 'Uhhh...... info?',
       memberName: 'info',
       module: 'info'
-    })
+    });
   }
 
   run(msg) {

@@ -8,7 +8,8 @@ const icons = {
   error: '🔥   ',
   debug: '⚙  ',
   info: '🆗   ',
-  message: '💁'
+  message: '💁',
+  warn: '⚠ '
 };
 let socket;
 let logs = [];
@@ -38,6 +39,9 @@ class Logger {
   }
   verbose(msg) {
     this.log('verbose', msg);
+  }
+  warn(msg) {
+    this.log('warn', msg);
   }
   on(event, cb) {
     this.emitter.on(event, cb);

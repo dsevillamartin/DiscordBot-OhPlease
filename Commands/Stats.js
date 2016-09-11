@@ -2,17 +2,17 @@ const Graf = require('discord-graf');
 const Log = require('../log').Logger;
 const moment = require('moment');
 
-require('moment-duration-format')
+require('moment-duration-format');
 
 const Unit = ['', 'K', 'M', 'G', 'T', 'P'];
 const BytesToSize = (input, precision) => {
   let index = Math.floor(Math.log(input) / Math.log(1024));
   if (Unit >= Unit.length) return input + ' B';
-  return (input / Math.pow(1024, index)).toFixed(precision) + ' ' + Unit[index] + 'B'
-}
+  return (input / Math.pow(1024, index)).toFixed(precision) + ' ' + Unit[index] + 'B';
+};
 const GetUptime = bot => {
   return moment.duration(bot.uptime).format('d[ days], h[ hours], m[ minutes, and ]s[ seconds]');
-}
+};
 
 class StatsCommand extends Graf.Command {
   constructor(bot) {
@@ -28,7 +28,7 @@ class StatsCommand extends Graf.Command {
 
   run(msg) {
     let bot = msg.client;
-    let MemoryUsing = BytesToSize(process.memoryUsage().rss, 3)
+    let MemoryUsing = BytesToSize(process.memoryUsage().rss, 3);
     let Uptime = GetUptime(bot);
 
     const StatsMessage = [
