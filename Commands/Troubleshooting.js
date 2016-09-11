@@ -1,28 +1,35 @@
-const TroubleshootingDiscordJS = [
+const Graf = require('discord-graf');
+const Log = require('../log').Logger;
+
+const TroubleshootDiscordJSMessage = [
   '**TROUBLESHOOTING DISCORD.JS**',
   '',
-  '<http://discordjs.readthedocs.org/en/latest/troubleshooting.html>',
-  'or ask in <#81385020756865024>'
+  'Join _Discord.js Official_ at https://discord.gg/bRCvFy9'
 ].join('\n');
-
-const TroubleshootingEris = [
+const TroubleshootErisMessage = [
   '**TROUBLESHOOTING ERIS**',
   '',
-  'Ask in <#178672669841948672>'
+  'Ask in <#178672669841948672> on Discord API'
 ].join('\n');
 
-module.exports = (bot, DeleteMessageCommand) => {
-
-  const Troubleshooting = msg => {
-    if (msg.channel.id == '178672669841948672') {
-      bot.createMessage(msg.channel.id, TroubleshootingEris).then(DeleteMessageCommand(msg));
-    } else {
-      bot.createMessage(msg.channel.id, TroubleshootingDiscordJS).then(DeleteMessageCommand(msg));
-    }
+class TroubleshootingCommand extends Graf.Command {
+  constructor(bot) {
+    super(bot, {
+      name: 'troubleshoot',
+      aliases: ['troubleshooting', 'trouble'],
+      argsCount: 1,
+      description: 'Fix problems you may be having with d.js or Eris!',
+      memberName: 'troubleshoot',
+      module: 'general'
+    });
   }
 
-  let command = bot.registerCommand('troubleshooting', Troubleshooting, {
-    aliases: ['troubleshoot']
-  });
-
+  run(msg, args) {
+    Log.debug(args);
+    if (args && args[0].toLowerCase() == 'eris') {
+      return Promise.resolve({ plain: TroubleshootErisMessage });
+    } else return Promise.resolve({ plain: TroubleshootDiscordJSMessage });
+  }
 }
+
+module.exports = TroubleshootingCommand;

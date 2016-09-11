@@ -1,3 +1,6 @@
+const Graf = require('discord-graf');
+const Log = require('../log').Logger;
+
 const Unit = ['', 'K', 'M', 'G', 'T', 'P'];
 const BytesToSize = (input, precision) => {
   let index = Math.floor(Math.log(input) / Math.log(1024));
@@ -22,18 +25,21 @@ const GetUptime = () => {
   if (days != '00' || hours != '00' || minutes != '00' || seconds != '00') time += `${seconds} ${seconds == '01' ? 'second' : 'seconds'} `;
   return time;
 }
-const Stats = {
-  Messages: {
-    Received: 0,
-    Sent: 0
+
+class StatsCommand extends Graf.Command {
+  constructor(bot) {
+    super(bot, {
+      name: 'stats',
+      argsCount: 0,
+      description: 'Stats',
+      details: 'Uhh... stats? Yeah...',
+      memberName: 'stats',
+      module: 'info'
+    });
   }
-};
 
-const Log = require('../log').Logger;
-
-module.exports = bot => {
-
-  bot.registerCommand('stats', msg => {
+  run(msg) {
+    let bot = msg.client;
     let MemoryUsing = BytesToSize(process.memoryUsage().rss, 3)
     let Uptime = GetUptime();
 
@@ -44,16 +50,10 @@ module.exports = bot => {
       `• Uptime: \`${Uptime}\``,
       `• Servers: \`${bot.guilds.size}\``,
       `• Users: \`${bot.users.size}\``,
-      `• Messages Sent: \`${Stats.Messages.Sent}\``,
-      `• Messages Received: \`${Stats.Messages.Received}\``,
     ].join('\n');
 
-    bot.createMessage(msg.channel.id, StatsMessage);
-  });
-
-  bot.on('messageCreate', msg => {
-    if (msg.author.id == bot.user.id) return Stats.Messages.Sent++;
-    Stats.Messages.Received++;
-  });
-
+    return Promise.resolve({ plain: StatsMessage });
+  }
 }
+
+module.exports = StatsCommand;
