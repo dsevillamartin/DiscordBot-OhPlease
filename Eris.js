@@ -4,7 +4,7 @@ let Log = require('./log').Logger;
 let { Bot } = require('discord-graf');
 
 const version = 'dev';
-const name = 'Oh Please Beta';
+const name = 'Oh Please';
 const token = process.env.TOKEN;
 
 const bot = new Bot({
@@ -12,7 +12,7 @@ const bot = new Bot({
   clientOptions: {
     disableEveryone: true
   },
-  commandPrefix: 'oh please beta',
+  commandPrefix: 'oh please',
   owner: '175008284263186437'
 });
 
