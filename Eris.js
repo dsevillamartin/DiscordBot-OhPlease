@@ -16,6 +16,8 @@ const bot = new Bot({
   owner: '175008284263186437'
 });
 
+bot._logger = Log;
+
 let ready = false;
 
 // let DeleteMessageCommand = require('./Commands/DeleteMessageCommand')(bot);

@@ -15,8 +15,9 @@ let logs = [];
 
 class Logger {
 
-  constructor() {
+  constructor(logLevel) {
     this.emitter = new EventEmitter();
+    this.logLevel = 'debug';
   }
 
   // methods
@@ -28,12 +29,15 @@ class Logger {
   }
   error(msg) {
     if (typeof msg == 'object' && msg.stack) {
-      msg.stack = msg.stack.replace(__dirname, './');
+      msg.stack = msg.stack.replace(process.cwd(), '.');
     }
     this.log('error', msg);
   }
   message(msg) {
     this.log('message', msg);
+  }
+  verbose(msg) {
+    this.log('verbose', msg);
   }
   on(event, cb) {
     this.emitter.on(event, cb);
@@ -43,7 +47,11 @@ class Logger {
 
   log(level, msg) {
     let args = [...arguments].slice(1);
-    let log = `[${moment().format("MM/D/YY HH:mm:ss")}] ${icons[level]} ${level}: ${util.format(...args)}`;
+    let message = util.format(...args).replace(process.env.TOKEN, 'TOKEN');
+    let log = `[${moment().format("MM/D/YY HH:mm:ss")}] ${icons[level] || ' '} ${level}: ${message}`;
+
+    if (this.logLevel === 'error' && level !== 'error') return false;
+    if (this.logLevel !== 'verbose' && level === 'verbose') return false;
 
     console.log(log);
 
