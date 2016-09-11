@@ -1,28 +1,27 @@
+const Graf = require('discord-graf');
+const Log = require('../log').Logger;
+
 const VoiceExampleDiscordJS = [
   '**A VOICE EXAMPLE WITH DISCORD.JS**',
   '',
   '\`\`\`js',
-  'if (msg.content.startsWith(prefix + "play")) {',
-  '  let file = "./music/mysong.mp3";   // Path to a file on disk. Works for direct URLs but not youtube (because youtube urls are not files)!',
-  '  let channel = msg.author.voiceChannel;  // Join the user\'s voice channel, or specify another',
-  '',
-  '  bot.joinVoiceChannel(channel).then(connection => {',
-  '    connection.playFile(file)',
-  '    .then(intent => {',
-  '      intent.on("end", () => {',
-  '        console.log("Playback Ended");',
-  '        bot.leaveVoiceChannel(channel); // leave voice channel when done playing file',
-  '      })',
-  '      intent.on("error", (err) => {',
-  '        console.log(\'Playback Error: \' + err);',
-  '        bot.leaveVoiceChannel(channel);',
-  '      });',
-  '    })',
-  '  })',
-  '  .catch(err => {',
-  '    console.log(\'Error joining voice channel: \' + err);',
-  '  });',
-  '}',
+  'const Discord = require("discord.js");',
+  'const yt = require(\'ytdl-core\');',
+  'const client = new Discord.Client();',
+  'client.login(" Y o u r   B o t   T o k e n ");',
+
+  'client.on(\'message\', message => {',
+  '  if (message.content.startsWith(\'++play\')) {',
+  '    const voiceChannel = msg.member.voiceChannel;',
+  '    if (!voiceChannel || voiceChannel.type !== \'voice\') {',
+  '      return message.reply(`Please be in a voice channel first!`);',
+  '    }',
+  '    voiceChannel.join().then(connnection => {',
+  '      let stream = yt("https://www.youtube.com/watch?v=dQw4w9WgXcQ", { audioonly: true });',
+  '      connnection.playStream(stream);',
+  '    });',
+  '  }',
+  '});',
   '\`\`\`',
   '',
   '`playFile` docs: <http://discordjs.readthedocs.io/en/latest/docs_voiceconnection.html#playfile-path-options-callback>',
@@ -50,22 +49,28 @@ const VoiceExampleEris = [
   '_Excerpt from <https://github.com/abalabahaha/eris/blob/master/examples/playFile.js>_'
 ].join('\n');
 
-module.exports = (bot, DeleteMessageCommand) => {
-  const VoiceExample = msg => {
-    if (msg.channel.id == '178672669841948672') {
-      bot.createMessage(msg.channel.id, VoiceExampleEris).then(DeleteMessageCommand(msg));
-    } else {
-      bot.createMessage(msg.channel.id, VoiceExampleDiscordJS).then(DeleteMessageCommand(msg));
-    }
+class VoiceExampleCommand extends Graf.Command {
+  constructor(bot) {
+    super(bot, {
+      name: 'voice example',
+      aliases: ['show me a voice example'],
+      description: 'Show me a voice example; default d.js',
+      memberName: 'voice-example',
+      module: 'general',
+      usage: 'voice example [d.js/eris]',
+      examples: ['voice example', 'voice example eris']
+    })
   }
 
-  bot.registerCommand('show', msg => {})
-  .registerSubcommand('me', msg => {})
-  .registerSubcommand('a', msg => {})
-  .registerSubcommand('voice', msg => {})
-  .registerSubcommand('example', VoiceExample);
+  run(msg, args) {
+    args = args.join(' ').replace('example', '').replace('me a voice example', '').split(' ').slice(1, 2);
 
-  bot.registerCommand('voice', msg => {})
-  .registerSubcommand('example', VoiceExample);
-
+    if (args[0] == 'eris') {
+      return Promise.resolve({ plain: VoiceExampleEris });
+    } else {
+      return Promise.resolve({ plain: VoiceExampleDiscordJS });
+    }
+  }
 }
+
+module.exports = VoiceExampleCommand;

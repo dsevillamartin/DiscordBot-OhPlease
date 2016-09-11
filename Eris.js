@@ -1,73 +1,90 @@
 let { debug, error } = require('./log');
 let chalk = require('chalk');
-let Eris = require('eris');
-let log = require('./log').Logger;
+let Log = require('./log').Logger;
+let { Bot } = require('discord-graf');
 
-let bot = new Eris.CommandClient(process.env.TOKEN, {}, {
-  description: 'Oh Please bot built in eris',
-  owner: 'datitisev#4934',
-  name: 'Oh Please',
-  prefix: 'oh please ',
-  ignoreBots: false,
-  ignoreSelf: false,
-  defaultHelpCommand: false
+const version = 'dev';
+const name = 'Oh Please Beta';
+const token = process.env.TOKEN;
+
+const bot = new Bot({
+  name, version, token,
+  clientOptions: {
+    disableEveryone: true
+  },
+  commandPrefix: 'oh please beta',
+  owner: '175008284263186437'
 });
+
+bot._logger = Log;
+
 let ready = false;
 
-let DeleteMessageCommand = require('./Commands/DeleteMessageCommand')(bot);
+// let DeleteMessageCommand = require('./Commands/DeleteMessageCommand')(bot);
 
-bot.on('ready', () => {
-  ready = true;
-  log.info(chalk.cyan('=> Logged in!'));
-});
+// bot.on('ready', () => {
+//   ready = true;
+//   Log.info(chalk.cyan('=> Logged in!'));
+// });
 
-require('./Commands/Help')(bot, DeleteMessageCommand);
-require('./Commands/Clean')(bot, DeleteMessageCommand);
-require('./Commands/Learn')(bot, DeleteMessageCommand);
-require('./Commands/VoiceExample')(bot, DeleteMessageCommand);
-require('./Commands/ReadDocs')(bot, DeleteMessageCommand);
-require('./Commands/Troubleshooting')(bot, DeleteMessageCommand);
-require('./Commands/Codeblocks')(bot, DeleteMessageCommand);
-require('./Commands/Hosting')(bot, DeleteMessageCommand);
-require('./Commands/GodNo')(bot, DeleteMessageCommand);
-require('./Commands/Invite')(bot, DeleteMessageCommand);
-require('./Commands/Info')(bot, DeleteMessageCommand);
-require('./Commands/WrongCredentials')(bot, DeleteMessageCommand);
-require('./Commands/Stats')(bot, DeleteMessageCommand);
-require('./Commands/SetNick')(bot, DeleteMessageCommand);
-require('./Commands/MusicBot')(bot, DeleteMessageCommand);
-require('./Commands/Ping')(bot, DeleteMessageCommand);
-require('./Commands/ScrollUp')(bot, DeleteMessageCommand);
-require('./Commands/CatchOutput')(bot, DeleteMessageCommand);
+let Commands = [
+  require('./Commands/Clean'),
+  require('./Commands/Ping'),
+  require('./Commands/Info'),
+  require('./Commands/Stats'),
+  require('./Commands/Invite'),
+  require('./Commands/SetNick'),
+  //
+  require('./Commands/Hosting'),
+  require('./Commands/Learn'),
+  require('./Commands/Troubleshooting'),
+  require('./Commands/ScrollUp'),
+  require('./Commands/GodNo'),
+  require('./Commands/MusicBot'),
+  require('./Commands/VoiceExample'),
+  require('./Commands/Codeblocks'),
+  require('./Commands/CatchOutput'),
+]
 
-require('./Modules/Tags')(bot);
-require('./Modules/CommandLogger')(bot);
+// require('./Modules/Tags')(bot);
+// require('./Modules/CommandLogger')(bot);
 
-bot.on('error', (err, id) => {
-  let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
-  bot.getDMChannel('175008284263186437').then(DMChannel => {
-    bot.createMessage(DMChannel.id, `\`ERROR IN SHARD ${id}\`\n\`\`\`sh\n${errorMsg}\n\`\`\``);
-  }).catch(error);
-
-  log.error(errorMsg);
-});
+// bot.on('error', (err, id) => {
+//   let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
+//   bot.getDMChannel('175008284263186437').then(DMChannel => {
+//     bot.createMessage(DMChannel.id, `\`ERROR IN SHARD ${id}\`\n\`\`\`sh\n${errorMsg}\n\`\`\``);
+//   }).catch(error);
+//
+//   Log.error(errorMsg);
+// });
 
 process.on('uncaughtException', (err) => {
   let errorMsg = err.stack.replace(new RegExp(`${__dirname}\/`, 'g'), './');
-  bot.getDMChannel('175008284263186437').then(DMChannel => {
-    bot.createMessage(DMChannel.id, `\`UNCAUGHT EXCEPTION\`\n\`\`\`sh\n${errorMsg}\n\`\`\``);
-  }).catch(error);
+  // bot.getDMChannel('175008284263186437').then(DMChannel => {
+  //   bot.createMessage(DMChannel.id, `\`UNCAUGHT EXCEPTION\`\n\`\`\`sh\n${errorMsg}\n\`\`\``);
+  // }).catch(error);
 
-  log.error(errorMsg);
+ Log.error(errorMsg);
 });
 
-bot.connect().then(() => {
-  log.info(chalk.cyan('=> Logging in...'));
-  setTimeout(() => {
-    if (!ready) log.error(chalk.red('=> Invalid token or gateway may be down'));
-  }, 7500)
-}).catch(err => {
-  error(err);
-});
+bot.registerModules([
+  ['general', 'General'],
+  ['info', 'Info'],
+  ['util', 'Util'],
+  ['modules', 'Modules'],
+]).registerDefaultCommands({
+  about: false,
+  modRoles: false,
+  channels: false
+}).registerCommands(Commands).createClient();
+//
+// bot.connect().then(() => {
+//   Log.info(chalk.cyan('=> Logging in...'));
+//   setTimeout(() => {
+//     if (!ready) Log.error(chalk.red('=> Invalid token or gateway may be down'));
+//   }, 7500)
+// }).catch(err => {
+//   error(err);
+// });
 
 module.exports = bot;

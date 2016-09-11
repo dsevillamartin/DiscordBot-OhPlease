@@ -1,29 +1,33 @@
-module.exports = (bot, DeleteMessageCommand) => {
+const Graf = require('discord-graf');
+const Log = require('../log').Logger;
 
-  const Codeblocks = msg => {
-    let message = [
-      '**HOW TO USE CODEBLOCKS:**',
-      '',
-      '\\`\\`\\`js',
-      'const Discord = require(\'discord.js\');',
-      '\\`\\`\\`',
-      'will transform into',
-      '',
-      '\`\`\`js',
-      'const Discord = require(\`discord.js\`);',
-      '\`\`\`'
-    ].join('\n');
+const CodeblocksMessage = [
+  '**HOW TO USE CODEBLOCKS:**',
+  '',
+  '\\`\\`\\`js',
+  'const Discord = require(\'discord.js\');',
+  '\\`\\`\\`',
+  'will transform into',
+  '',
+  '\`\`\`js',
+  'const Discord = require(\`discord.js\`);',
+  '\`\`\`'
+].join('\n');
 
-    bot.createMessage(msg.channel.id, message).then(DeleteMessageCommand(msg));
+class CodeblocksCommand extends Graf.Command {
+  constructor(bot) {
+    super(bot, {
+      name: 'codeblocks',
+      aliases: ['use codeblocks', 'use code blocks', 'code blocks'],
+      description: 'How to use codeblocks',
+      memberName: 'codeblocks',
+      module: 'general'
+    });
   }
 
-  let command = bot.registerCommand('use', msg => {})
-
-  command.registerSubcommand('codeblocks', Codeblocks);
-  
-  command.registerSubcommand('code', msg => {})
-  .registerSubcommand('blocks', Codeblocks);
-
-  bot.registerCommand('codeblocks', Codeblocks);
-
+  run(msg, args) {
+    return Promise.resolve({ plain: CodeblocksMessage });
+  }
 }
+
+module.exports = CodeblocksCommand;

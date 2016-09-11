@@ -1,23 +1,31 @@
-let chalk = require('chalk');
+const Graf = require('discord-graf');
+const Log = require('../log').Logger;
 
-module.exports = bot => {
-  bot.registerCommand('setnick', (msg, args) => {
-    console.log(chalk.green(args));
-    let nick = args.length ? args.join(' ') : 'Oh Please';
-    bot.editNickname(msg.channel.guild.id, nick).then(() => {
-      return bot.createMessage(msg.channel.id, `=> Successfully set nickname to **${nick}**`)
-    }).then(msg => {
-      setTimeout(() => {
-        bot.deleteMessage(msg.channel.id, msg.id);
-      }, 5000);
+class SetNicknameCommand extends Graf.Command {
+  constructor(bot) {
+    super(bot, {
+      name: 'nick',
+      aliases: ['nickname'],
+      argsType: 'multiple',
+      description: 'Change bot\'s nickname; bot owner only',
+      memberName: 'nick',
+      module: 'util',
+      guildOnly: true
     });
-  }, {
-    description: 'set the bot\'s nickname',
-    caseInsensitive: true,
-    aliases: ['nick'],
-    fullDescription: 'This command changes the bot\'s nickname',
-    requirements: {
-      userIDs: ['175008284263186437']
-    }
-  });
+  }
+
+  hasPermission(guild, user) {
+    return user.id === '175008284263186437';
+  }
+
+  run(msg, args) {
+
+    return msg.guild.fetchMember(msg.client.user.id).then(BotUser => {
+      return BotUser.setNickname(args.join(' '));
+    }).then(() => {
+      return msg.channel.sendMessage(`=> Successfully set nickname to **${args[0] ? args.join(' ') : 'Oh Please Beta'}**!`).then(msg => setTimeout(() => msg.delete(), 5000));
+    }).catch(Log.error.bind(this));
+  }
 }
+
+module.exports = SetNicknameCommand;

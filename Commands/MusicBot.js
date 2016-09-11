@@ -1,8 +1,19 @@
-module.exports = (bot, DeleteMessageCommand) => {
+const Graf = require('discord-graf');
+const Log = require('../log').Logger;
 
-  bot.registerCommand('music', () => {})
-  .registerSubcommand('bot', msg => {
-    bot.createMessage(msg.channel.id, 'https://giphy.com/gifs/vk7VesvyZEwuI').then(DeleteMessageCommand(msg));
-  });
+class GodNoCommand extends Graf.Command {
+  constructor(bot) {
+    super(bot, {
+      name: 'music bot',
+      description: 'Really??? ANOTHER ONE???',
+      memberName: 'musicbot',
+      module: 'general'
+    });
+  }
 
+  run(msg, args) {
+    return Promise.resolve({ plain: '**TRIGGERED**\nhttps://giphy.com/gifs/vk7VesvyZEwuI' });
+  }
 }
+
+module.exports = GodNoCommand;
