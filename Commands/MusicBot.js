@@ -1,7 +1,7 @@
 const Graf = require('discord-graf');
 const Log = require('../log').Logger;
 
-class GodNoCommand extends Graf.Command {
+class MusicBotCommand extends Graf.Command {
   constructor(bot) {
     super(bot, {
       name: 'music bot',
@@ -16,4 +16,4 @@ class GodNoCommand extends Graf.Command {
   }
 }
 
-module.exports = GodNoCommand;
+module.exports = MusicBotCommand;

@@ -1,6 +1,10 @@
 const Graf = require('discord-graf');
 const Log = require('../log').Logger;
 
+const DeleteMessagesSeparately = msgs => {
+  msgs.forEach(message => message.delete().catch(Log.error.bind(Log)));
+};
+
 class CleanCommand extends Graf.Command {
   constructor(bot) {
     super(bot, {
@@ -27,13 +31,13 @@ class CleanCommand extends Graf.Command {
     }).then(msgs => {
       Log.debug(`Deleting ${msgs.size} messages...`);
 
-      if (!msg.guild) return msgs.forEach(message => message.delete().catch(Log.error.bind(Log)));
+      if (!msg.guild) return DeleteMessagesSeparately(msgs);
 
       return msg.guild.fetchMember(bot.user.id).then(member => {
         if (member.hasPermission('MANAGE_MESSAGES')) {
           return msg.channel.bulkDelete(msgs).catch(Log.error.bind(Log));
         } else {
-          return msgs.forEach(message => message.delete().catch(Log.error.bind(Log)));
+          return DeleteMessagesSeparately(msgs);
         }
       });
     }).then(() => {

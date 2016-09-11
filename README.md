@@ -19,13 +19,13 @@ Commands:
   * `help` - this help message
   * `invite` - invite Oh Please to your server
   * `info` - info about Oh Please
-  * `learn js` - some links to learn javascript & node
-  * `learn d.js` - two useful links for developing a bot with discord.js
-  * `read docs` - read the docs of the corresponding library, if #node_eris uses Eris, otherwise defaults to d.js
-  * `troubleshooting` - gives some links for troubleshooting, depend on library, eris & d.js set up
-  * `show me a voice example` - sends a voice example code, depends on library, eris & d.js set up
+  * `learn (js/d.js)` - some links to learn javascript & d.js; args required
+  * `troubleshoot [eris/d.js]` - gives some links for troubleshooting, depend on library, defaults to d.js
+  * `voice example [eris/d.js]` - sends a voice example code, depends on library, defaults to d.js
+  * `codeblocks` - how to use codeblocks & plz use them
   * `scroll up` - oh please scroll up 👀
-  * `detect wrong token` - know if the token didn't work in d.js
   * `god no` - oh god please no
   * `music bot` - #triggered
+  * `hosting` - hosting recommendations for node discord bots
   * `ping` - just a ping command 🙂
+  * `stats` - just a stats command 🙂
