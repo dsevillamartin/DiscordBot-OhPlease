@@ -16,7 +16,7 @@ const bot = new Bot({
   clientOptions: {
     disableEveryone: true
   },
-  bdpw-key: process.env.BDPW_KEY
+  'bdpw-key': process.env.BDPW_KEY
 });
 
 bot._logger = Log;
