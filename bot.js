@@ -5,7 +5,7 @@ const ServerConfig = require('./Models/ServerConfig');
 const bot_version = 'dev';
 const bot_name = 'Oh Please';
 const bot_token = process.env.TOKEN;
-const bot_prefix = '!';
+const bot_prefix = 'oh please ';
 
 const bot = new Bot({
   name: bot_name,
@@ -15,7 +15,8 @@ const bot = new Bot({
   owner: '175008284263186437',
   clientOptions: {
     disableEveryone: true
-  }
+  },
+  bdpw-key: process.env.BDPW_KEY
 });
 
 bot._logger = Log;
