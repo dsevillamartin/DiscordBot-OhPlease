@@ -1,7 +1,8 @@
 'use strict';
 
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const Log = require('../log').Logger;
 
 mongoose.Promise = global.Promise;
 
@@ -13,7 +14,24 @@ let TagSchema = new Schema({
   content: String,
   author: String
 });
+
+let CommandSchema = new Schema({
+  command: String,
+  content: String,
+  description: String,
+  guild: String
+});
+
+let ServerConfSchema = new Schema({
+  name: String,
+  commands: Schema.Types.Mixed,
+  id: String
+});
+
 let Tag = mongoose.model('Tags', TagSchema);
+let ServerConf = mongoose.model('ServerConf', ServerConfSchema);
+
+
 
 
 class TagModel {
@@ -37,6 +55,28 @@ class TagModel {
   }
 }
 
+class ServerConfModel {
+  constructor(opts = {}) {
+    this.server_conf = opts;
+  }
+  static Find() {
+    return ServerConf.find({})
+  }
+  static Get(id) {
+    return ServerConf.findOne({
+      id: guild_id
+    });
+  }
+  static Delete(id) {
+    return ServerConf.findOneAndRemove({ id });
+  }
+
+  save() {
+    return ServerConf.create(this.server_conf);
+  }
+}
+
 module.exports = {
-  Tag: TagModel
+  Tag: TagModel,
+  ServerConf: ServerConfModel
 };

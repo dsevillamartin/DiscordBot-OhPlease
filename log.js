@@ -19,6 +19,13 @@ class Logger {
   constructor(logLevel) {
     this.emitter = new EventEmitter();
     this.logLevel = 'debug';
+
+    this.debug = this.debug.bind(this);
+    this.info = this.info.bind(this);
+    this.error = this.error.bind(this);
+    this.message = this.message.bind(this);
+    this.verbose = this.verbose.bind(this);
+    this.warn = this.warn.bind(this);
   }
 
   // methods

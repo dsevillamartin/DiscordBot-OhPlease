@@ -1,21 +1,21 @@
-let { debug, error } = require('./log');
-let chalk = require('chalk');
-let Log = require('./log').Logger;
-let { Bot } = require('discord-graf');
+const Bot = require('discord-graf').Bot;
+const Log = require('./log').Logger;
+const ServerConfig = require('./Models/ServerConfig');
 
 const bot_version = 'dev';
 const bot_name = 'Oh Please';
 const bot_token = process.env.TOKEN;
+const bot_prefix = '!';
 
 const bot = new Bot({
   name: bot_name,
   version: bot_version,
   token: bot_token,
+  commandPrefix: bot_prefix,
+  owner: '175008284263186437',
   clientOptions: {
     disableEveryone: true
-  },
-  commandPrefix: 'oh please',
-  owner: '175008284263186437'
+  }
 });
 
 bot._logger = Log;
@@ -37,6 +37,8 @@ let Commands = [
   require('./Commands/VoiceExample'),
   require('./Commands/Codeblocks'),
   require('./Commands/CatchOutput'),
+
+  require('./Commands/Conf'),
 ];
 
 process.on('uncaughtException', (err) => {
@@ -67,6 +69,11 @@ bot.client.on('error', (err, id) => {
     .catch(Log.error.bind(Log));
 
   Log.error(errorMsg);
+});
+
+bot.client.on('ready', token => {
+  let client = bot.client;
+  ServerConfig.init(client);
 });
 
 module.exports = bot;
