@@ -54,6 +54,7 @@ bot.registerModules([
   ['general', 'General'],
   ['info', 'Info'],
   ['util', 'Util'],
+  ['blacklist', 'Blacklist'],
   ['modules', 'Modules'],
 ]).registerDefaultCommands({
   about: false,
