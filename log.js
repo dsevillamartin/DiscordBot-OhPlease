@@ -89,17 +89,18 @@ class Logger {
    * @param {Mixed} message - actual message, ya know?
    * @private
    */
-  log(level, msg) {
-    const TOKEN = process.env.DISCORD_TESTING_BOT_TOKEN || process.env.TOKEN;
-    let args = [...arguments].slice(1);
-    let message = util.format(...args).replace(new RegExp(TOKEN, 'g'), 'TOKEN_WAS_HERE');
+   log(level, msg) {
+     let args = [...arguments].slice(1);
+     let message = util.format(...args).replace(process.env.TOKEN, 'TOKEN');
+     let log = `[${moment().format("MM/D/YY HH:mm:ss")}] ${icons[level] || ' '} ${level}: ${message}`;
 
-    let log = `[${moment().format("MM/D/YY HH:mm:ss")}] ${icons[level]} ${level}: ${util.format(...args)}`;
+     if (this.logLevel === 'error' && level !== 'error') return false;
+     if (this.logLevel !== 'verbose' && level === 'verbose') return false;
 
-    console.log(log);
+     console.log(log);
 
-    this.emit(log);
-  }
+     this.emit(log);
+   }
 
   /**
    * Get all the logs from the latest run
