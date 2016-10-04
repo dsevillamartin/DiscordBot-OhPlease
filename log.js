@@ -38,11 +38,11 @@ class Logger {
   }
 
   /**
-   * Log something about github, self-explanatory (right?)
+   * Log verbose
    * @param {Mixed} ...args - all the arguments
    */
-  github(...args) {
-    this.log('github', ...args);
+  verbose(...args) {
+    this.log('verbose', ...args);
   }
 
   /**
