@@ -26,7 +26,7 @@ class Logger {
     this.info = this.info.bind(this);
     this.error = this.error.bind(this);
     this.message = this.message.bind(this);
-    this.github = this.github.bind(this);
+    this.verbose = this.verbose.bind(this);
   }
 
   /**
