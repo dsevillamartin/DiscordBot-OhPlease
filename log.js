@@ -8,7 +8,8 @@ const icons = {
   error: '🔥  ',
   debug: '⚙  ',
   info: '🆗   ',
-  message: '💁'
+  message: '💁',
+  warn: '⚠️ '
 };
 let socket;
 let logs = [];
@@ -51,6 +52,14 @@ class Logger {
    */
   info(...args) {
     this.log('info', ...args);
+  }
+
+  /**
+   * Warn me please!!
+   * @param {Mixed} ...args - all the arguments
+   */
+  message(...args) {
+    this.log('message', ...args);
   }
 
   /**
@@ -100,7 +109,7 @@ class Logger {
      console.log(log);
 
      this.emit(log);
-   }
+   }y
 
   /**
    * Get all the logs from the latest run
