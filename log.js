@@ -109,7 +109,7 @@ class Logger {
      console.log(log);
 
      this.emit(log);
-   }y
+   }
 
   /**
    * Get all the logs from the latest run
